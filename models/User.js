@@ -19,14 +19,14 @@ const userSchema = new Schema({
     }
 });
 
-userSchema.pre('save',async ()=>{
+userSchema.pre('save', async function(){
     if(this.isNew || this.isModified('password')){
         const saltRound = 10;
         this.password = await bcrypt.hash(this.password,saltRound);
     }
 });
 
-userSchema.methods.isCustomPassword = async function(password){
+userSchema.methods.isCorrectPassword = async function(password){
     return bcrypt.compare(password, this.password);
 }
 module.exports = model("User", userSchema);

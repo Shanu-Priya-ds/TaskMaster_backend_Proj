@@ -18,9 +18,9 @@ authMiddleware = (req, res, next) => {
         res.status(400).json({ message: "invalid token" })
     }
 }
-signToken = (username, email, _id) => {
-    const payload = { username, email, _id };
-    jwt.sign(payload, secret,);
+signToken = (user) => {
+    const payload = { username: user.username, email: user.email, _id: user._id };
+    return jwt.sign(payload, secret, { expiresIn: '2h' });
 }
 
 module.exports = { signToken }
