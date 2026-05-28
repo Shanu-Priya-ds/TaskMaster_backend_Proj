@@ -15,4 +15,10 @@ const projectSchema = new Schema({
     }
 }, { timestamps: true });
 
+projectSchema.pre('findByIdAndDelete', async function(next) {
+    const Task = require('./Task');
+    await Task.deleteMany({ project: this.getFilter()._id });
+    next();
+});
+
 module.exports = model("Project", projectSchema);
